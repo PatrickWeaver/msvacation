@@ -66,7 +66,7 @@ date = new Date();
 todayOfTheWeek = date.getDay();
 
 
-app.get('/toggle', function(req, res) {
+/*app.get('/toggle', function(req, res) {
 
   if( onvacation ) {
     onvacation = false
@@ -78,18 +78,19 @@ app.get('/toggle', function(req, res) {
     css: 'toggle'
   });
 
-});
+});*/
 
 
 app.get('/', function(req, res){
-  if (onvacation == true) {
+    if (true) {
+  //if (onvacation == true) {
     res.render('vacation', {
       place: '',
       duration: duration,
       transportation: 'test',
       css: 'vacation'
     });
-  }  else if (todayOfTheWeek > 5) {
+  }/*  else if (todayOfTheWeek > 5) {
     res.render('weekend', {
       place: '',
       duration: duration,
@@ -104,7 +105,7 @@ app.get('/', function(req, res){
       transportation: '',
       css: 'style'
     });
-  };
+  }; */
 });
 
 
