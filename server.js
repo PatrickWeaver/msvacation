@@ -84,11 +84,11 @@ todayOfTheWeek = date.getDay();
 app.get('/', function(req, res){
     if (true) {
   //if (onvacation == true) {
-    res.render('vacation', {
+    res.render('index', {
       place: '',
       duration: duration,
       transportation: 'test',
-      css: 'vacation'
+      css: 'style'
     });
   }/*  else if (todayOfTheWeek > 5) {
     res.render('weekend', {
