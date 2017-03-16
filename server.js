@@ -106,7 +106,7 @@ app.get('/', function(req, res){
       place: '',
       duration: duration,
       transportation: '',
-      css: 'style'
+      css: 'vacation'
     });
   //};
 });
