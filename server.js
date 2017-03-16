@@ -102,7 +102,7 @@ app.get('/', function(req, res){
 
   } else {
   */
-    res.render('index', {
+    res.render('vacationindex', {
       place: '',
       duration: duration,
       transportation: '',
