@@ -82,8 +82,8 @@ todayOfTheWeek = date.getDay();
 
 
 app.get('/', function(req, res){
-    if (true) {
-  //if (onvacation == true) {
+  //if (true) {
+  if (onvacation == true) {
     res.render('index', {
       place: '',
       duration: duration,
