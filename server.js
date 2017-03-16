@@ -82,15 +82,17 @@ todayOfTheWeek = date.getDay();
 
 
 app.get('/', function(req, res){
-  //if (true) {
-  if (onvacation == true) {
+  /*if (true) {
+  //if (onvacation == true) {
     res.render('index', {
       place: '',
       duration: duration,
       transportation: 'test',
       css: 'style'
     });
-  }/*  else if (todayOfTheWeek > 5) {
+  //}
+  */
+  /*  else if (todayOfTheWeek > 5) {
     res.render('weekend', {
       place: '',
       duration: duration,
@@ -99,13 +101,14 @@ app.get('/', function(req, res){
     });
 
   } else {
+  */
     res.render('index', {
       place: '',
       duration: duration,
       transportation: '',
       css: 'style'
     });
-  }; */
+  //};
 });
 
 
