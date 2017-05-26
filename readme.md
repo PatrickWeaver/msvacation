@@ -1,3 +1,3 @@
 Is Meredith on vacation?
 
-website
+A website that informs about Meredith's vacation status
