@@ -1,6 +1,6 @@
 {
   "name": "msvacation",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Is Meredith on vacation?",
   "main": "",
   "scripts": {
@@ -30,7 +30,8 @@
     "should": "^8.0.2",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "jsonfile": "^3.0.1"
   },
   "devDependencies": {
     "gulp-env": "^0.2.0",
