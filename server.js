@@ -82,12 +82,12 @@ app.get("/toggle", function(req, res) {
 
 app.post("/thank-you", function(req, res) {
   var d = new Date;
-  var place = req.body.place;
+  var destination = req.body.place;
   var duration = req.body.duration;
   var transportation = req.body.transportation;
   
   var newInput = {
-    place: place,
+    destination: destination,
     duration: duration,
     transportation: transportation,
     timestamp: d
@@ -126,6 +126,19 @@ app.post("/thank-you", function(req, res) {
 
 app.get("/input", function(req,res) {
   res.sendFile(__dirname + "/views/thank-you.html");
+});
+
+app.get("/trips", function(req, res) {
+  
+  Trip.find(function(err, trips) {
+    if (err) {
+      res.send("Error: " + err);
+      return console.error(err);
+    } else {
+      console.log(trips);
+    }
+    res.send(trips); 
+  });    
 });
 
 app.use('/public', express.static(__dirname + '/public'));
