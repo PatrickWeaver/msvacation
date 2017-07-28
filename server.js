@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
 var jsonfile = require('jsonfile');
+var mongoose = require('mongoose');
 
 
 var status;
@@ -14,6 +15,21 @@ var status;
 var app = express();
 
 var port = process.env.PORT || 3000;
+
+var db;
+var db = mongoose.connect(process.env.MONGOLAB_URI);
+
+var Schema = mongoose.Schema;
+ 
+var TripSchema = new Schema({
+    destination    : String,
+    duration       : String,
+    transportation : String,
+    date           : Date
+});
+
+
+var Trip = mongoose.model("Trip", TripSchema);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -69,14 +85,30 @@ app.post("/thank-you", function(req, res) {
   var place = req.body.place;
   var duration = req.body.duration;
   var transportation = req.body.transportation;
+  
+  var newInput = {
+    place: place,
+    duration: duration,
+    transportation: transportation,
+    timestamp: d
+  }
+  
+  var trip = new Trip(newInput);
+  
+  
+  trip.save(function(err) {
+    if (err) return handleError(err);
+  });
+  
+  function handleError(err) {
+    console.log(err);
+    res.send("Error: " + err);
+  }
+  
+  
   jsonfile.readFile(__dirname + "/input.json", function(err, obj) {
     var input = obj.input;
-    var newInput = {
-      place: place,
-      duration: duration,
-      transportation: transportation,
-      timestamp: d
-    }
+
     
     obj.input.push(newInput);
 
