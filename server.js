@@ -7,10 +7,7 @@ var mime = require('mime');
 var jsonfile = require('jsonfile');
 var mongoose = require('mongoose');
 
-
 var status;
-
-
 
 var app = express();
 
@@ -22,14 +19,19 @@ var db = mongoose.connect(process.env.MONGOLAB_URI);
 var Schema = mongoose.Schema;
  
 var TripSchema = new Schema({
-    destination    : String,
-    duration       : String,
-    transportation : String,
-    date           : Date
+  destination    : String,
+  duration       : String,
+  transportation : String,
+  date           : Date
+});
+
+var StatusSchema = new Schema({
+  status         : String
 });
 
 
 var Trip = mongoose.model("Trip", TripSchema);
+var Status = mongoose.model("Status", StatusSchema);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -61,6 +63,12 @@ app.get("/", function(req, res){
 });
 
 app.get("/toggle", function(req, res) {
+  
+  var dbStatus = Status.findOne({}, {}, { sort: { "created_at" : -1 } }, function(err, newestStatus) {
+    console.log (newestStatus);
+  })
+   
+  
   jsonfile.readFile(__dirname + "/status.json", function(err, obj) {
     status = obj.status;
     if (status === "vacation") {
