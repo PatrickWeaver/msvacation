@@ -123,6 +123,7 @@ app.post("/thank-you", function(req, res) {
     if (err) {
       handleError(res, err);
     }
+    res.sendFile(__dirname + "/views/thank-you.html");
   });
   
 });
