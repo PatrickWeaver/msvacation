@@ -4,10 +4,9 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
-var jsonfile = require('jsonfile');
 var mongoose = require('mongoose');
 
-var status;
+//var status;
 
 var app = express();
 
@@ -26,7 +25,8 @@ var TripSchema = new Schema({
 });
 
 var StatusSchema = new Schema({
-  status         : String
+  status         : String,
+  date           : Date
 });
 
 
@@ -36,56 +36,71 @@ var Status = mongoose.model("Status", StatusSchema);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+function getNewestStatus(callback) {
+  Status.findOne({}, {}, { sort: { "date": -1 }}, function(err, newestStatus) {
+    callback(newestStatus);
+  });
+}
+
+function handleError(res, err) {
+  console.log(err);
+  res.send("Error: " + err);
+}
+
 
 app.get("/", function(req, res){
-  var date = new Date();
-  var todayOfTheWeek = date.getDay();
   
+  getNewestStatus(respondNewestStatus);
   
-  jsonfile.readFile(__dirname + "/status.json", function(err, obj) {
-    status = obj.status;
-    var weekend = false;
-    if (todayOfTheWeek > 5) {
-      weekend = true;
-    }
+  function respondNewestStatus(newestStatus){
+
+    var status = newestStatus.status;
     
     if (status === "vacation") {
       res.sendFile(__dirname + "/views/vacation.html");
-      
     } else {
+      var date = new Date();
+      var todayOfTheWeek = date.getDay();
+      var weekend = false;
+      if (todayOfTheWeek > 5) {
+        weekend = true;
+      }
       if (weekend){
         res.sendFile(__dirname + "/views/weekend.html");
       } else {
         res.sendFile(__dirname + "/views/index.html");
-      }      
-    } 
-  });
+      }  
+    }
+  }
 });
 
 app.get("/toggle", function(req, res) {
   
-  var dbStatus = Status.findOne({}, {}, { sort: { "created_at" : -1 } }, function(err, newestStatus) {
-    console.log (newestStatus);
-  })
-   
+  getNewestStatus(toggleNewestStatus);
   
-  jsonfile.readFile(__dirname + "/status.json", function(err, obj) {
-    status = obj.status;
-    if (status === "vacation") {
-      obj.status = "working";
+  function toggleNewestStatus(newestStatus) {
+    var status;
+    if (newestStatus && newestStatus.status === "vacation") {
+      status = "working";
     } else {
-      obj.status = "vacation";
+      status = "vacation";
     }
-    
-    jsonfile.writeFile(__dirname + "/status.json", obj, function(err) {
-      if (err){
-        throw err;
+
+    var newStatus = {
+      status: status,
+      date: new Date
+    }
+
+    var updateStatus = new Status(newStatus);
+    updateStatus.save(function(err) {
+      if (err) {
+        handleError(res, err);
       } else {
         res.status(200);
-        res.send("Meredith is now: " + obj.status);
+        res.send("Meredith is now: " + status);
       }
-    });    
-  });
+    });
+  }
 });
 
 app.post("/thank-you", function(req, res) {
@@ -98,36 +113,16 @@ app.post("/thank-you", function(req, res) {
     destination: destination,
     duration: duration,
     transportation: transportation,
-    timestamp: d
+    date: d
   }
   
   var trip = new Trip(newInput);
   
   
   trip.save(function(err) {
-    if (err) return handleError(err);
-  });
-  
-  function handleError(err) {
-    console.log(err);
-    res.send("Error: " + err);
-  }
-  
-  
-  jsonfile.readFile(__dirname + "/input.json", function(err, obj) {
-    var input = obj.input;
-
-    
-    obj.input.push(newInput);
-
-    jsonfile.writeFile(__dirname + "/input.json", obj, function(err) {
-      if (err){
-        throw err;
-      } else {
-        res.status(200);
-        res.sendFile(__dirname + "/views/thank-you.html");
-      }
-    }); 
+    if (err) {
+      handleError(res, err);
+    }
   });
   
 });
@@ -140,8 +135,7 @@ app.get("/trips", function(req, res) {
   
   Trip.find(function(err, trips) {
     if (err) {
-      res.send("Error: " + err);
-      return console.error(err);
+      handleError(res, err);
     } else {
       console.log(trips);
     }
