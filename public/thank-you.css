@@ -12,3 +12,12 @@ body {
 a {
   color: white;
 }
+
+button {
+  font-size: 70%;
+  background-color: #4F4FDF;
+}
+
+button:hover {
+  cursor: pointer;
+}

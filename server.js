@@ -128,20 +128,24 @@ app.post("/thank-you", function(req, res) {
   
 });
 
-app.get("/input", function(req,res) {
-  res.sendFile(__dirname + "/views/thank-you.html");
-});
-
 app.get("/trips", function(req, res) {
   
   Trip.find(function(err, trips) {
     if (err) {
       handleError(res, err);
-    } else {
-      console.log(trips);
     }
+    var numberOfTrips = trips.length;
+    var randomTrip = Math.floor(Math.random() * trips.length);
+    
+    console.log(randomTrip);
+    
+    
     res.send(trips); 
   });    
+});
+
+app.get("/maybe", function(req, res) { 
+  res.sendFile(__dirname + "/views/maybe.html");
 });
 
 app.use('/public', express.static(__dirname + '/public'));
