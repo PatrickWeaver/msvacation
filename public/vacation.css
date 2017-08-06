@@ -1,8 +1,8 @@
 body {
-    background-image: url("/public/tri.gif");
-    background-repeat: repeat;
-    width: 100%;
-   	font-family: sans-serif;
+  background-image: url("/public/tri.gif");
+  background-repeat: repeat;
+  width: 100%;
+  font-family: sans-serif;
 	color: black;
 } 
 

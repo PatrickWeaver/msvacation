@@ -1,9 +1,9 @@
 body {
-    background-image: url("/public/compat.jpg");
-    background-repeat: repeat;
-    width: 100%;
-   	font-family: sans-serif;
-	color: black;
+  background-image: url("/public/compat.jpg");
+  background-repeat: repeat;
+  width: 100%;
+  font-family: sans-serif;
+  color: black;
 } 
 
 .headline {
@@ -68,3 +68,4 @@ padding: 20px;
 .f-label-box {
 	font-size: 30px;
 }
+
