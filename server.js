@@ -134,12 +134,6 @@ app.get("/trips", function(req, res) {
     if (err) {
       handleError(res, err);
     }
-    var numberOfTrips = trips.length;
-    var randomTrip = Math.floor(Math.random() * trips.length);
-    
-    console.log(randomTrip);
-    
-    
     res.send(trips); 
   });    
 });
