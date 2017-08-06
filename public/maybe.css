@@ -1,5 +1,39 @@
+body {
+  background-image: url("/public/questionmark.gif");
+  background-repeat: repeat;
+  width: 100%;
+  font-family: sans-serif;
+	color: white;
+  padding: 2em;
+  text-align: center;
+} 
 
+h2 {
+  font-weight: bold;
+	line-height: 80%;
+	text-align: center;
+	font-size: 80px;
+	text-shadow: -5px -5px pink;
+}
 
 #trip {
-  display: none;
+  background-color: #9F9FDF;
+  padding: 2em;
+  width: 80%;
+  font-size: 125%;
+}
+
+#buttons {
+  padding: 2em;
+  width: 80%;
+}
+
+button {
+  font-size: 275%;
+  padding: 1em;
+  background-color: #BFBFFF;
+}
+
+button:hover {
+  cursor: pointer;
 }

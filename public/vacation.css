@@ -57,3 +57,16 @@ padding: 20px;
 .f-label-box {
 	font-size: 30px;
 }
+
+#maybe {
+  padding: 1em;
+  background-color: #AFEFAF;
+  font-size: 200%;
+  width: 60%;
+  margin: 1em 20%;
+}
+
+#maybe > a {
+  color: #55B;
+  text-shadow: -1px -1px blue;
+}
